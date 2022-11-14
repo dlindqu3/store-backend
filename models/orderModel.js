@@ -38,6 +38,7 @@ const orderSchema = new Schema({
     type: String, 
     required: true
   },
+  
   taxPrice: {
     type: Number, 
     required: true,
