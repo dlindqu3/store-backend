@@ -19,7 +19,12 @@ const productSchema = new Schema({
     type: String, 
     required: true
   },
-  company: {
+  description: {
+    type: String, 
+    required: true, 
+    default: 0
+  },
+  brand: {
     type: String, 
     required: true
   },
@@ -27,22 +32,12 @@ const productSchema = new Schema({
     type: String, 
     required: true
   },
-  description: {
-    type: String, 
-    required: true, 
-    default: 0
-  },
-  numReviews: {
-    type: Number, 
-    required: true, 
-    default: 0
-  },
   price: {
     type: Number, 
     required: true, 
     default: 0
   },
-  stockCount: {
+  numReviews: {
     type: Number, 
     required: true, 
     default: 0
