@@ -30,3 +30,22 @@ const getSingleProduct = async (req, res) => {
 }
 
 module.exports = { createProduct, getAllProducts, getSingleProduct }
+
+// sample products: 
+// {
+//   "name": "Ignite 4000", 
+//   "image": "/images/bike.jpg", 
+//   "description": "lightweight aluminum frame", 
+//   "brand": "Star Bikes", 
+//   "category": "Sports", 
+//   "price": 275000
+// }
+
+// {
+//   "name": "Prospeed Helmet",
+//   "image": "/images/helmet.jpg",
+//   "description": "lightweight and durable",
+//   "brand": "Star Bikes",
+//   "category": "Sports",
+//   "price": 35000
+// }

@@ -15,4 +15,4 @@
 4. bike photo - Photo by Robert Bye on Unsplash
 5. helmet photo - Photo by Cobi Krumholz on Unsplash
 6. The Net Ninja, "MERN Stack Tutorial #6 - Controllers (part 1)", [link](https://www.youtube.com/watch?v=oEHHjs1UVXQ&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLIoUE&index=6)
-  
+7. The Net Ninja, "MERN Authentication Tutorial #2 - User Routes, Controller & Model", [link](https://www.youtube.com/watch?v=b5LDOW8WJ9A&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=2)
