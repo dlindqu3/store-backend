@@ -1,6 +1,7 @@
 ## later
 - require auth (superuser) to CRUD products in db 
 
+
 ## stripe notes 
 - we provide it with the ids of the products we want to buy and a count for each
 - send that to the server, which has pricing info 
