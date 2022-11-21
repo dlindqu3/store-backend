@@ -1,7 +1,3 @@
-## later
-- require auth (superuser) to CRUD products in db 
-
-
 ## stripe notes 
 - we provide it with the ids of the products we want to buy and a count for each
 - send that to the server, which has pricing info 
@@ -22,3 +18,4 @@
 10. The Net Ninja, "MERN Authentication Tutorial #6 - Signing Tokens", [link](https://www.youtube.com/watch?v=MsudBMepwO8&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=6)
 11. The Net Ninja, "MERN Authentication Tutorial #7 - Logging Users In", [link](https://www.youtube.com/watch?v=Jdt0mygy-74&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=7)
 12. The Net Ninja, "MERN Authentication Tutorial #14 - Protecting API Routes", [link](https://www.youtube.com/watch?v=MrEoixi8QY4&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=14)
+13. Lama Dev, "Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT", [link](https://www.youtube.com/watch?v=rMiRZ1iRC0A)

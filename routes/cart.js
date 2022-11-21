@@ -16,6 +16,6 @@ router.get("/read-cart/:userId", readCart)
 router.put("/update-cart/:id", updateCart)
 
 // overall route: /api/cart/delete-cart/:id
-router.put("/delete-cart/:id", deleteCart)
+router.delete("/delete-cart/:id", deleteCart)
 
 module.exports = router 

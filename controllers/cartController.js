@@ -1,6 +1,5 @@
 require('dotenv').config()
 const Cart = require('../models/cartModel');
-const router = require('../routes/cart');
 
 
 const createCart = async (req, res) => {
@@ -48,7 +47,7 @@ const deleteCart = async (req, res) => {
   try {
     // find with cartID 
     await Cart.findByIdAndDelete(req.params.id)
-    res.status(200).json("The product has been deleted.")
+    res.status(200).json("The cart has been deleted.")
   } catch(err){
     res.status(500).json(err)
   }
