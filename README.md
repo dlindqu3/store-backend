@@ -21,3 +21,4 @@
 9. The Net Ninja, "MERN Authentication Tutorial #4 - Email & Password Validation", [link](https://www.youtube.com/watch?v=sRFI6L0a38E&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=4)
 10. The Net Ninja, "MERN Authentication Tutorial #6 - Signing Tokens", [link](https://www.youtube.com/watch?v=MsudBMepwO8&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=6)
 11. The Net Ninja, "MERN Authentication Tutorial #7 - Logging Users In", [link](https://www.youtube.com/watch?v=Jdt0mygy-74&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=7)
+12. The Net Ninja, "MERN Authentication Tutorial #14 - Protecting API Routes", [link](https://www.youtube.com/watch?v=MrEoixi8QY4&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=14)

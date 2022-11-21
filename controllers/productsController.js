@@ -29,6 +29,9 @@ const getSingleProduct = async (req, res) => {
   res.status(200).json(currentProduct)
 }
 
+// update product 
+// example: update quantity in stock after each order 
+
 module.exports = { createProduct, getAllProducts, getSingleProduct }
 
 // sample products: 

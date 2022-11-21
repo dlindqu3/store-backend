@@ -2,27 +2,37 @@ require('dotenv').config()
 const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
-const checkoutRoutes = require('./routes/checkout')
+const bodyParser = require("body-parser")
 const productsRoutes = require('./routes/products')
+const cartRoutes = require("./routes/cart")
+const checkoutRoutes = require('./routes/checkout')
 const userRoutes = require('./routes/user')
 
 const app = express()
+
 
 app.use(cors({
   origin: 'http://localhost:3000'
 }))
 
-app.use(express.json())
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 
 app.use((req, res, next) => {
   console.log(req.path, req.method)
   next()
 })
 
+
 // routes
 app.use('/api/user', userRoutes)
-app.use('/api/checkout', checkoutRoutes)
 app.use('/api/products', productsRoutes)
+app.use("/api/cart", cartRoutes)
+app.use('/api/checkout', checkoutRoutes)
 
 
 mongoose.connect(process.env.MONGO_URI)

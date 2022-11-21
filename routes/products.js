@@ -1,7 +1,10 @@
 const express = require('express')
 const { createProduct, getAllProducts, getSingleProduct } = require('../controllers/productsController')
+const requireAuth = require("../middleware/requireAuth")
 
 const router = express.Router()
+
+router.use(requireAuth)
 
 // overall route: /api/products/create-product 
 router.post('/create-product', createProduct)
