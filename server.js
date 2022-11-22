@@ -7,6 +7,7 @@ const productsRoutes = require('./routes/products')
 const cartRoutes = require("./routes/cart")
 const checkoutRoutes = require('./routes/checkout')
 const userRoutes = require('./routes/user')
+const ordersRoutes = require("./routes/orders")
 
 const app = express()
 
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 app.use('/api/user', userRoutes)
 app.use('/api/products', productsRoutes)
 app.use("/api/cart", cartRoutes)
+app.use('/api/orders', ordersRoutes)
 app.use('/api/checkout', checkoutRoutes)
 
 

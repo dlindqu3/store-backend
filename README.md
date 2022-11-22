@@ -4,6 +4,10 @@
 - server will respond with a new url to a checkout page 
 - frontend can re-direct to the new url (a checkout page)
 
+## stripe api choices
+- Stripe Checkout is a prebuilt payment page that you can redirect your customer to for simple purchases and subscriptions. It provides many features, such as Apple Pay, Google Pay, internationalization, and form validation.
+  - ** this project will use Checkout 
+- The Charges and Payment Intents APIs let you build custom payment flows and experiences.
 
 ## citations 
 1. Brad Traversy, "Modeling Our Data" (part of a Udemy course called "MERN eCommerce From Scratch"), [link](https://www.udemy.com/course/mern-ecommerce/)
@@ -18,4 +22,5 @@
 10. The Net Ninja, "MERN Authentication Tutorial #6 - Signing Tokens", [link](https://www.youtube.com/watch?v=MsudBMepwO8&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=6)
 11. The Net Ninja, "MERN Authentication Tutorial #7 - Logging Users In", [link](https://www.youtube.com/watch?v=Jdt0mygy-74&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=7)
 12. The Net Ninja, "MERN Authentication Tutorial #14 - Protecting API Routes", [link](https://www.youtube.com/watch?v=MrEoixi8QY4&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=14)
-13. Lama Dev, "Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT", [link](https://www.youtube.com/watch?v=rMiRZ1iRC0A)
+13. Stripe, "API Reference", [link](https://stripe.com/docs/api?lang=node)
+14. Lama Dev, "Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT", [link](https://www.youtube.com/watch?v=rMiRZ1iRC0A)
