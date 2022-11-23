@@ -11,6 +11,13 @@
 - ** this project uses Checkout, not Charges & Payment Intents  
 
 
+## question -- 
+- making multiple API calls in succession, where call 2 uses the data from call 1 as an input 
+- in my code, I need to implement this at checkout
+- call 1: get product details from mongo; call 2: using return value from product details call, make a call to start a checkout session 
+- "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
+
+
 ## citations 
 1. Brad Traversy, "Modeling Our Data" (part of a Udemy course called "MERN eCommerce From Scratch"), [link](https://www.udemy.com/course/mern-ecommerce/)
 2. Web Dev Simplified, "How To Accept Payments With Stripe", [link](https://www.youtube.com/watch?v=1r-F3FIONl8)

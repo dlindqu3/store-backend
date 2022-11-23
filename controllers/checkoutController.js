@@ -3,9 +3,9 @@ const Stripe = require("stripe");
 const Product = require('../models/productModel');
 
 
-const getCartProductsDetails = async (req, res) => {
+const getCartProductsDetails = async (cartItems) => {
 
-  let cartItems = req.body.cartData
+  // let cartItems = req.body.cartData
 
   let products = []
 
@@ -17,7 +17,7 @@ const getCartProductsDetails = async (req, res) => {
       let currentProduct = await Product.findById(currentCartItemId)
       products.push({ currentProduct, currentCartItemQuantity })
     }
-    return res.status(200).json({ products: products })
+    return { products: products }
   } catch (err){
     res.json({ error: err.message })
   }
@@ -28,7 +28,7 @@ const getCartProductsDetails = async (req, res) => {
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 
-const handleCheckout = async (req, res) => {
+const handleCheckout = async (productsObj, res) => {
 
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
@@ -39,7 +39,7 @@ const handleCheckout = async (req, res) => {
   };
 
   // line_items will be an array of objects
-  let line_items_data = req.body.products.map((item) => {
+  let line_items_data = productsObj.products.map((item) => {
     return {
       price_data: {
         currency: 'usd',
@@ -57,22 +57,33 @@ const handleCheckout = async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create(sessionData)
     // creating a stripe checkout session provides you with a url that you can re-route to in order to handle checkout
-    res.json({ url: session.url })
+    return { url: session.url }
   } catch (err) {
     res.json({ error: err.message })
   }
 };
 
-// const handleGetDetailsThenCheckout = async (req, res) => {
-//   let productDetailsData = await getCartProductsDetails(req, res)
-//   if (productDetailsData.error){
-//     res.json({ error: productDetailsData.error.message })
-//   }
-//   let checkoutData = handleCheckout(productDetailsData, res)
-//   if (checkoutData.error){
-//     res.json({error: checkoutData.error.message })
-//   }
-// }
+const handleGetDetailsThenCheckout = async (req, res) => {
+  try {
+    
+    let cartItems = req.body.cartData
+    let productDetailsData = await getCartProductsDetails(cartItems)
+    // res.send(productDetailsData)
+    let checkoutUrl = await handleCheckout(productDetailsData)
+    res.status(200).send(checkoutUrl)
+
+  } catch (err){
+    res.send(err)
+  }
+  
+  // if (productDetailsData.error){
+  //   res.json({ error: productDetailsData.error.message })
+  // }
+  // let checkoutData = handleCheckout(productDetailsData, res)
+  // if (checkoutData.error){
+  //   res.json({error: checkoutData.error.message })
+  // }
+}
 
 module.exports = { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout };
 

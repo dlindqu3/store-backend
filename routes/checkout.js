@@ -11,7 +11,7 @@ router.get("/pre-checkout/get-cart-products-details", getCartProductsDetails)
 router.post('/create-checkout-session', handleCheckout)
 
 // overall route: /api/checkout/combo/handle-get-details-then-checkout
-// router.get('/combo/handle-get-details-then-checkout', handleGetDetailsThenCheckout)
+router.get('/combo/handle-get-details-then-checkout', handleGetDetailsThenCheckout)
 
 
 module.exports = router 
