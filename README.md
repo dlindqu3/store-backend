@@ -4,10 +4,12 @@
 - server will respond with a new url to a checkout page 
 - frontend can re-direct to the new url (a checkout page)
 
+
 ## stripe api choices
 - Stripe Checkout is a prebuilt payment page that you can redirect your customer to for simple purchases and subscriptions. It provides many features, such as Apple Pay, Google Pay, internationalization, and form validation.
-  - ** this project will use Checkout 
-- The Charges and Payment Intents APIs let you build custom payment flows and experiences.
+- Stripe's Charges and Payment Intents APIs let you build custom payment flows and experiences.
+- ** this project uses Checkout, not Charges & Payment Intents  
+
 
 ## citations 
 1. Brad Traversy, "Modeling Our Data" (part of a Udemy course called "MERN eCommerce From Scratch"), [link](https://www.udemy.com/course/mern-ecommerce/)

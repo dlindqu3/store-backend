@@ -4,27 +4,77 @@ const Product = require('../models/productModel');
 
 
 const getCartProductsDetails = async (req, res) => {
-  // req.body.cartItems 
-  let cartItems = [
-    {
-      itemId: "6378f1082d11c2df21c3dd31", 
-      quantity: 50
-    }, 
-    {
-      itemId: "6378f062a0d04237a135b702", 
-      quantity: 20 
-    }
-  ]
+
+  let cartItems = req.body.cartData
+
   let products = []
-  for (let i = 0; i < cartItems.length; i++){
-    let currentCartItem = cartItems[i]
-    let currentCartItemQuantity = currentCartItem.quantity
-    let currentCartItemId = currentCartItem.itemId
-    let currentProduct = await Product.findById(currentCartItemId)
-    products.push({ currentProduct, currentCartItemQuantity })
+
+  try {
+    for (let i = 0; i < cartItems.length; i++){
+      let currentCartItem = cartItems[i]
+      let currentCartItemQuantity = currentCartItem.quantity
+      let currentCartItemId = currentCartItem.itemId
+      let currentProduct = await Product.findById(currentCartItemId)
+      products.push({ currentProduct, currentCartItemQuantity })
+    }
+    return res.status(200).json({ products: products })
+  } catch (err){
+    res.json({ error: err.message })
   }
-  return res.status(200).json({ products: products })
 }
+
+
+
+const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
+
+
+const handleCheckout = async (req, res) => {
+
+  let sessionData = {
+    cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
+    success_url: `${process.env.CLIENT_URL}/checkout/success`,
+    mode: "payment",
+    payment_method_types: ["card"],
+    // line_items: [{}, {}],
+  };
+
+  // line_items will be an array of objects
+  let line_items_data = req.body.products.map((item) => {
+    return {
+      price_data: {
+        currency: 'usd',
+        product_data: {
+        name: item.currentProduct.name
+        },
+      unit_amount: item.currentProduct.price
+      },
+      quantity: item.currentCartItemQuantity
+    }
+  })
+
+  sessionData['line_items'] = line_items_data
+
+  try {
+    const session = await stripe.checkout.sessions.create(sessionData)
+    // creating a stripe checkout session provides you with a url that you can re-route to in order to handle checkout
+    res.json({ url: session.url })
+  } catch (err) {
+    res.json({ error: err.message })
+  }
+};
+
+// const handleGetDetailsThenCheckout = async (req, res) => {
+//   let productDetailsData = await getCartProductsDetails(req, res)
+//   if (productDetailsData.error){
+//     res.json({ error: productDetailsData.error.message })
+//   }
+//   let checkoutData = handleCheckout(productDetailsData, res)
+//   if (checkoutData.error){
+//     res.json({error: checkoutData.error.message })
+//   }
+// }
+
+module.exports = { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout };
 
 // sample return value from getCartProductsDetails: 
 // {
@@ -59,45 +109,3 @@ const getCartProductsDetails = async (req, res) => {
 //     }
 //   ]
 // }
-
-
-
-const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
-
-const handleCheckout = async (req, res) => {
-
-  let sessionData = {
-    cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
-    success_url: `${process.env.CLIENT_URL}/checkout/success`,
-    mode: "payment",
-    payment_method_types: ["card"],
-    // line_items: [{}, {}],
-  };
-
-  // line_items will be an array of objects
-  let line_items_data = req.body.products.map((item) => {
-    return {
-      price_data: {
-        currency: 'usd',
-        product_data: {
-        name: item.currentProduct.name
-        },
-      unit_amount: item.currentProduct.price
-      },
-      quantity: item.currentCartItemQuantity
-    }
-  })
-
-  sessionData['line_items'] = line_items_data
-
-  // res.json(sessionData)
-
-  try {
-    const session = await stripe.checkout.sessions.create(sessionData)
-    res.json({ url: session.url })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
-  }
-};
-
-module.exports = { handleCheckout, getCartProductsDetails };
