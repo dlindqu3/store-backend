@@ -5,8 +5,6 @@ const Product = require('../models/productModel');
 
 const getCartProductsDetails = async (cartItems) => {
 
-  // let cartItems = req.body.cartData
-
   let products = []
 
   try {
@@ -35,6 +33,9 @@ const handleCheckout = async (productsObj, res) => {
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
     mode: "payment",
     payment_method_types: ["card"],
+    shipping_address_collection: {
+      allowed_countries: ["US"]
+      }
     // line_items: [{}, {}],
   };
 
@@ -65,24 +66,15 @@ const handleCheckout = async (productsObj, res) => {
 
 const handleGetDetailsThenCheckout = async (req, res) => {
   try {
-    
     let cartItems = req.body.cartData
     let productDetailsData = await getCartProductsDetails(cartItems)
-    // res.send(productDetailsData)
     let checkoutUrl = await handleCheckout(productDetailsData)
     res.status(200).send(checkoutUrl)
-
+    // returns an object like: 
+    // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
   } catch (err){
     res.send(err)
   }
-  
-  // if (productDetailsData.error){
-  //   res.json({ error: productDetailsData.error.message })
-  // }
-  // let checkoutData = handleCheckout(productDetailsData, res)
-  // if (checkoutData.error){
-  //   res.json({error: checkoutData.error.message })
-  // }
 }
 
 module.exports = { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout };

@@ -1,3 +1,9 @@
+## next steps 
+- clear Cart after checkout 
+- create new Order obj with old cart data 
+- protect cart/order routes 
+
+
 ## stripe notes 
 - we provide it with the ids of the products we want to buy and a count for each
 - send that to the server, which has pricing info 
@@ -15,7 +21,8 @@
 - making multiple API calls in succession, where call 2 uses the data from call 1 as an input 
 - in my code, I need to implement this at checkout
 - call 1: get product details from mongo; call 2: using return value from product details call, make a call to start a checkout session 
-- "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
+- FIX: "return" the required data from the 2 inner functions, instead of doing res.send or res.json 
+- helpful source: "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
 
 
 ## citations 
@@ -33,3 +40,5 @@
 12. The Net Ninja, "MERN Authentication Tutorial #14 - Protecting API Routes", [link](https://www.youtube.com/watch?v=MrEoixi8QY4&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=14)
 13. Stripe, "API Reference", [link](https://stripe.com/docs/api?lang=node)
 14. Lama Dev, "Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT", [link](https://www.youtube.com/watch?v=rMiRZ1iRC0A)
+15. "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
+16. "Custom Checkout", [link](https://stripe.com/docs/payments/checkout/customization)

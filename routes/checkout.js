@@ -5,6 +5,7 @@ const { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout } =
 
 const router = express.Router()
 
+// overall route: /api/checkout/get-cart-products-details
 router.get("/pre-checkout/get-cart-products-details", getCartProductsDetails)
 
 // overall route: /api/checkout/create-checkout-session

@@ -1,14 +1,14 @@
 require('dotenv').config()
 const Order = require('../models/orderModel');
 
+
 // create an order 
-const createOrder = async (req, res) => {
-  const orderData =  new Order(req.body); 
+const createOrder = async (orderData) => {
   try {
-    let dbOrder = await orderData.save()
-    res.status(200).json(dbOrder)
-  } catch (err){
-    res.status(500).json(err)
+    const newOrder = await Order.create(orderData)
+    res.status(200).json(newOrder)
+  } catch (err) {
+    res.status(400).json({ mssg: err.message })
   }
 }
 
