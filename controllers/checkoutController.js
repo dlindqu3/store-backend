@@ -3,13 +3,29 @@ const Stripe = require("stripe");
 const Product = require('../models/productModel');
 
 
-const getCartProductsDetails = async (cartItems) => {
+const getCartProductsDetails = async (cartItemsObj) => {
 
   let products = []
 
+  // cartItemsObj: 
+  // {
+  //   "cartItems": [
+  //     {
+  //       "itemId": "6378f062a0d04237a135b702",
+  //       "quantity": 2
+  //     },
+  //     {
+  //       "itemId": "6378f1082d11c2df21c3dd31",
+  //       "quantity": 3
+  //     }
+  //   ]
+  // }
+
+  let cartItemsData = cartItemsObj["cartItems"]
+  
   try {
-    for (let i = 0; i < cartItems.length; i++){
-      let currentCartItem = cartItems[i]
+    for (let i = 0; i < cartItemsData.length; i++){
+      let currentCartItem = cartItemsData[i]
       let currentCartItemQuantity = currentCartItem.quantity
       let currentCartItemId = currentCartItem.itemId
       let currentProduct = await Product.findById(currentCartItemId)
@@ -26,7 +42,7 @@ const getCartProductsDetails = async (cartItems) => {
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 
-const handleCheckout = async (productsObj, res) => {
+const handleCheckout = async (productDetailsObj) => {
 
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
@@ -40,7 +56,7 @@ const handleCheckout = async (productsObj, res) => {
   };
 
   // line_items will be an array of objects
-  let line_items_data = productsObj.products.map((item) => {
+  let line_items_data = productDetailsObj.products.map((item) => {
     return {
       price_data: {
         currency: 'usd',
@@ -56,6 +72,7 @@ const handleCheckout = async (productsObj, res) => {
   sessionData['line_items'] = line_items_data
 
   try {
+    // return { "sessionData" : sessionData }
     const session = await stripe.checkout.sessions.create(sessionData)
     // creating a stripe checkout session provides you with a url that you can re-route to in order to handle checkout
     return { url: session.url }
@@ -66,12 +83,19 @@ const handleCheckout = async (productsObj, res) => {
 
 const handleGetDetailsThenCheckout = async (req, res) => {
   try {
+    console.log('handleGetDetailsThenCheckout called')
     let cartItems = req.body.cartData
-    let productDetailsData = await getCartProductsDetails(cartItems)
-    let checkoutUrl = await handleCheckout(productDetailsData)
-    res.status(200).send(checkoutUrl)
-    // returns an object like: 
+    let cartItemsObj = { "cartItems": cartItems }
+    let productDetailsData = await getCartProductsDetails(cartItemsObj)
+    // res.status(200).send(productDetailsData)
+    // works to here 
+
+    let checkoutData = await handleCheckout(productDetailsData)
+    // here, checkout data is an object that looks like: 
     // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
+    res.status(200).send(checkoutData)
+
+  
   } catch (err){
     res.send(err)
   }
@@ -79,36 +103,3 @@ const handleGetDetailsThenCheckout = async (req, res) => {
 
 module.exports = { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout };
 
-// sample return value from getCartProductsDetails: 
-// {
-//   "products": [
-//     {
-//       "currentProduct": {
-//         "_id": "6378f1082d11c2df21c3dd31",
-//         "name": "Defender Ultra",
-//         "image": "/images/helmet.jpg",
-//         "description": "lightweight and aerodynamic design",
-//         "brand": "Star Bikes",
-//         "category": "Sports",
-//         "price": 75000,
-//         "quantityInStock": 750,
-//         "__v": 0
-//       },
-//       "currentCartItemQuantity": 50
-//     },
-//     {
-//       "currentProduct": {
-//         "_id": "6378f062a0d04237a135b702",
-//         "name": "Ignite 4500",
-//         "image": "/images/bike.jpg",
-//         "description": "lightweight aluminum frame",
-//         "brand": "Star Bikes",
-//         "category": "Sports",
-//         "price": 275000,
-//         "quantityInStock": 750,
-//         "__v": 0
-//       },
-//       "currentCartItemQuantity": 20
-//     }
-//   ]
-// }
