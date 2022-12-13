@@ -13,7 +13,7 @@ router.post("/create-cart", createCart)
 router.get("/read-cart/:userId", readCart)
 
 // overall route: /api/cart/update-cart/:id
-router.put("/update-cart/:id", updateCart)
+router.patch("/update-cart/:id", updateCart)
 
 // overall route: /api/cart/delete-cart/:id
 router.delete("/delete-cart/:id", deleteCart)

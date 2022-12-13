@@ -2,47 +2,10 @@ require("dotenv").config();
 const Stripe = require("stripe");
 const Product = require('../models/productModel');
 
-
-const getCartProductsDetails = async (cartItemsObj) => {
-
-  let products = []
-
-  // cartItemsObj: 
-  // {
-  //   "cartItems": [
-  //     {
-  //       "itemId": "6378f062a0d04237a135b702",
-  //       "quantity": 2
-  //     },
-  //     {
-  //       "itemId": "6378f1082d11c2df21c3dd31",
-  //       "quantity": 3
-  //     }
-  //   ]
-  // }
-
-  let cartItemsData = cartItemsObj["cartItems"]
-  
-  try {
-    for (let i = 0; i < cartItemsData.length; i++){
-      let currentCartItem = cartItemsData[i]
-      let currentCartItemQuantity = currentCartItem.quantity
-      let currentCartItemId = currentCartItem.itemId
-      let currentProduct = await Product.findById(currentCartItemId)
-      products.push({ currentProduct, currentCartItemQuantity })
-    }
-    return { products: products }
-  } catch (err){
-    res.json({ error: err.message })
-  }
-}
-
-
-
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-
-const handleCheckout = async (productDetailsObj) => {
+// argument array: productDetailsAndQuantities
+const handleCheckout = async (arr) => {
 
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
@@ -56,16 +19,16 @@ const handleCheckout = async (productDetailsObj) => {
   };
 
   // line_items will be an array of objects
-  let line_items_data = productDetailsObj.products.map((item) => {
+  let line_items_data = arr.map((item) => {
     return {
       price_data: {
         currency: 'usd',
         product_data: {
-        name: item.currentProduct.name
+        name: item.name
         },
-      unit_amount: item.currentProduct.price
+      unit_amount: item.price
       },
-      quantity: item.currentCartItemQuantity
+      quantity: item.quantity
     }
   })
 
@@ -84,22 +47,36 @@ const handleCheckout = async (productDetailsObj) => {
 const handleGetDetailsThenCheckout = async (req, res) => {
   try {
     console.log('handleGetDetailsThenCheckout called')
-    let cartItems = req.body.cartData
-    let cartItemsObj = { "cartItems": cartItems }
-    let productDetailsData = await getCartProductsDetails(cartItemsObj)
-    // res.status(200).send(productDetailsData)
-    // works to here 
+    // console.log('handleGetDetailsThenCheckout body: ', req.body)
 
-    let checkoutData = await handleCheckout(productDetailsData)
-    // here, checkout data is an object that looks like: 
-    // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
+    let cartItems = req.body.items
+    
+    let productDetailsAndQuantities = []
+
+    for (let i = 0; i < cartItems.length; i++){
+      let currentItem = cartItems[i]
+      let newObj = {}
+      let currentItemId = currentItem.id
+      let currentItemQuantity = currentItem.quantity 
+      newObj["quantity"] = currentItemQuantity
+
+      let productDetailsData = await Product.findById(currentItemId)
+      newObj["id"] = productDetailsData.id
+      newObj["name"] = productDetailsData.name
+      newObj["price"] = productDetailsData.price
+      productDetailsAndQuantities.push(newObj)
+    }
+
+    console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
+    let checkoutData = await handleCheckout(productDetailsAndQuantities)
+    // // here, checkoutData is an object that looks like: 
+    // // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
     res.status(200).send(checkoutData)
 
-  
   } catch (err){
     res.send(err)
   }
 }
 
-module.exports = { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout };
+module.exports = { handleCheckout, handleGetDetailsThenCheckout };
 

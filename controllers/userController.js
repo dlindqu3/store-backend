@@ -14,7 +14,7 @@ const signupUser = async (req, res) => {
     const user = await User.signup(username, email, password)
     // this token will be a long string of the payload, heading, and secret
     const token = createToken(user._id)
-    res.status(200).send({ username, token})
+    res.status(200).send({ username, email, token, _id: user._id})
   } catch (err){
     res.status(400).json({ error: err.message})
   }
@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
     const user = await User.login(email, password)
     // this token will be a long string of the payload, heading, and secret
     const token = createToken(user._id)
-    res.status(200).send({ username: user['username'], email: user['email'], token })
+    res.status(200).send({ username: user['username'], email: user['email'], _id: user._id, token })
   } catch (err){
     res.status(400).json({ error: err.message})
   }
