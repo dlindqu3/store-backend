@@ -11,10 +11,14 @@ const ordersRoutes = require("./routes/orders")
 
 const app = express()
 
+const allowedOrigins = ['http://localhost:4000', 'http://localhost:3000'];
 
-app.use(cors({
-  origin: 'http://localhost:3000'
-}))
+const options = {
+  origin: allowedOrigins,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(options));
 
 
 app.use(bodyParser.json());
