@@ -38,7 +38,10 @@ const handleCheckout = async (arr) => {
     // return { "sessionData" : sessionData }
     const session = await stripe.checkout.sessions.create(sessionData)
     // creating a stripe checkout session provides you with a url that you can re-route to in order to handle checkout
-    return { url: session.url }
+    console.log('session: ', session)
+    console.log('sessionId: ', session.id)
+    return { url: session.url, sessionId: session.id }
+
   } catch (err) {
     res.json({ error: err.message })
   }
@@ -67,7 +70,7 @@ const handleGetDetailsThenCheckout = async (req, res) => {
       productDetailsAndQuantities.push(newObj)
     }
 
-    console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
+    // console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
     let checkoutData = await handleCheckout(productDetailsAndQuantities)
     // // here, checkoutData is an object that looks like: 
     // // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}

@@ -36,6 +36,9 @@ app.use("/api/cart", cartRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/checkout', checkoutRoutes)
 
+app.get('/', (req, res) => {
+  res.send({mssg: "home page on server"})
+})
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

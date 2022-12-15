@@ -1,6 +1,6 @@
 const express = require('express')
 const { get } = require('mongoose')
-const { handleCheckout, getCartProductsDetails, handleGetDetailsThenCheckout } = require('../controllers/checkoutController')
+const { handleCheckout, handleGetDetailsThenCheckout } = require('../controllers/checkoutController')
 const requireAuth = require("../middleware/requireAuth")
 
 
@@ -13,6 +13,5 @@ router.post('/create-checkout-session', handleCheckout)
 
 // overall route: /api/checkout/combo/handle-get-details-then-checkout
 router.post('/combo/handle-get-details-then-checkout', handleGetDetailsThenCheckout)
-
 
 module.exports = router 
