@@ -40,7 +40,7 @@ app.use('/api/products', productsRoutes)
 app.use("/api/cart", cartRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/checkout', checkoutRoutes)
-app.use('/api/webhook/stripe-webhook', stripeWebhookRoutes)
+app.use('/api/webhook', stripeWebhookRoutes)
 
 
 app.get('/', (req, res) => {
