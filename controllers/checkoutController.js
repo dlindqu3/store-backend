@@ -81,5 +81,12 @@ const handleGetDetailsThenCheckout = async (req, res) => {
   }
 }
 
-module.exports = { handleCheckout, handleGetDetailsThenCheckout };
+let handleStripeWebhook = async (req, res) => {
+  // validate that req came from Stripe 
+  // const sig = req.headers["stripe-signature"]; 
+  // const endpointSecret = 
+  console.log('handleStripeWebhook called')
+}
+
+module.exports = { handleCheckout, handleGetDetailsThenCheckout, handleStripeWebhook };
 
