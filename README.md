@@ -31,3 +31,6 @@
 14. Lama Dev, "Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT", [link](https://www.youtube.com/watch?v=rMiRZ1iRC0A)
 15. "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
 16. "Custom Checkout", [link](https://stripe.com/docs/payments/checkout/customization)
+17. (https://www.youtube.com/watch?v=_TVrn-pyTo8)
+18. (https://github.com/stripe/stripe-node/issues/1254)
+19. (https://www.youtube.com/watch?v=1XKRxeo9414)

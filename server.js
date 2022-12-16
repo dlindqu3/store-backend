@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
-const bodyParser = require("body-parser")
+// const bodyParser = require("body-parser")
 const productsRoutes = require('./routes/products')
 const cartRoutes = require("./routes/cart")
 const checkoutRoutes = require('./routes/checkout')
@@ -25,11 +25,7 @@ app.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
     next(); // Do nothing with the body because I need it in a raw state.
   } else {
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-    // ONLY convert to json if the received request is NOT a WebHook from Stripe.
+    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
   }
 });
 
