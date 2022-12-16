@@ -8,6 +8,7 @@ const cartRoutes = require("./routes/cart")
 const checkoutRoutes = require('./routes/checkout')
 const userRoutes = require('./routes/user')
 const ordersRoutes = require("./routes/orders")
+const stripeWebhookRoutes = require("./routes/stripeWebhook")
 
 const app = express()
 
@@ -39,6 +40,8 @@ app.use('/api/products', productsRoutes)
 app.use("/api/cart", cartRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/checkout', checkoutRoutes)
+app.use('/api/webhook/stripe-webhook', stripeWebhookRoutes)
+
 
 app.get('/', (req, res) => {
   res.send({mssg: "home page on server"})
