@@ -16,7 +16,7 @@ let handleStripeWebhook = async (req, res) => {
       );
     } catch (err) {
       console.log(`⚠️  Webhook signature verification failed.`, err.message);
-      return response.sendStatus(400);
+      res.send({err: err.message});
     }
   }
   if (stripeEvent.type === "payment_intent.succeeded"){
