@@ -16,6 +16,7 @@ let handleStripeWebhook = async (req, res) => {
         signature,
         endpointSecret
       );
+      res.send({stripeEv: stripeEvent})
       console.log('stripeEvent: ', stripeEvent)
     } catch (err) {
       console.log(`⚠️  Webhook signature verification failed.`, err.message);
