@@ -10,13 +10,8 @@
 - Stripe's Charges and Payment Intents APIs let you build custom payment flows and experiences.
 - ** this project uses Checkout, not Charges & Payment Intents  
 
-
-## question -- 
-- making multiple API calls in succession, where call 2 uses the data from call 1 as an input 
-- in my code, I need to implement this at checkout
-- call 1: get product details from mongo; call 2: using return value from product details call, make a call to start a checkout session 
-- FIX: "return" the required data from the 2 inner functions, instead of doing res.send or res.json 
-- helpful source: "Multiple awaits inside one async function", [link](https://stackoverflow.com/questions/67919400/multiple-awaits-inside-one-async-function)
+## checkout webhook 
+- Register your publicly accessible HTTPS URL in the Stripe dashboard.
 
 
 ## citations 

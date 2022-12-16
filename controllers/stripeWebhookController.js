@@ -4,6 +4,8 @@ const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 let handleStripeWebhook = async (req, res) => {
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
+  console.log('webhook called')
+
   let stripeEvent
   if (endpointSecret) {
     // Get the signature sent by Stripe
@@ -30,7 +32,6 @@ let handleStripeWebhook = async (req, res) => {
     console.log('full stripe paymentIntent obj after failure: ', paymentIntent)
     console.log(`PaymentIntent for ${paymentIntent.amount} failed!`)
   }
-  console.log('handleStripeWebhook called')
 }
 
 module.exports = { handleStripeWebhook };
