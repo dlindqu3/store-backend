@@ -21,11 +21,17 @@ const options = {
 
 app.use(cors(options));
 
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+    // ONLY convert to json if the received request is NOT a WebHook from Stripe.
+  }
+});
 
 
 app.use((req, res, next) => {
