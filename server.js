@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
-// const bodyParser = require("body-parser")
+const bodyParser = require("body-parser")
 const productsRoutes = require('./routes/products')
 const cartRoutes = require("./routes/cart")
 const checkoutRoutes = require('./routes/checkout')
@@ -19,15 +19,14 @@ const options = {
   optionsSuccessStatus: 200
 };
 
-app.use(cors(options));
+app.use(cors(options))
 
-app.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
-    next(); // Do nothing with the body because I need it in a raw state.
-  } else {
-    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
-  }
-});
+// if this route is located before the bodyParser middleware, and I specify express.raw({type: "application/json"}) in the route, it uses raw body data like stripe expects 
+app.use('/api/webhook', stripeWebhookRoutes)
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.use((req, res, next) => {
@@ -42,7 +41,6 @@ app.use('/api/products', productsRoutes)
 app.use("/api/cart", cartRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/checkout', checkoutRoutes)
-app.use('/api/webhook', stripeWebhookRoutes)
 
 
 app.get('/', (req, res) => {
