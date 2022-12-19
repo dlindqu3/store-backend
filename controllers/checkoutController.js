@@ -7,10 +7,11 @@ const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 // argument array: productDetailsAndQuantities
 const handleCheckout = async (arr, userId) => {
 
-  let customer = stripe.customers.create({metadata: {
-    userId: userId,
-    cart: arr
-  }})
+  // let customer = stripe.customers.create({metadata: {
+  //   userId: userId,
+  //   cart: arr
+  // }})
+
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
@@ -19,7 +20,7 @@ const handleCheckout = async (arr, userId) => {
     shipping_address_collection: {
       allowed_countries: ["US"]
       },
-    customer: customer.userId
+    metadata: {user: userId, cartData: arr}
     // line_items: [{}, {}],
   };
 
