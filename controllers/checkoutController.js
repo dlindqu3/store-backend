@@ -12,6 +12,7 @@ const handleCheckout = async (arr, userId) => {
   //   cart: arr
   // }})
 
+  
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
