@@ -1,5 +1,7 @@
 require('dotenv').config()
+const Order = require('../models/orderModel')
 const Stripe = require("stripe")
+
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 let handleStripeWebhook = async (req, res) => {
@@ -16,7 +18,8 @@ let handleStripeWebhook = async (req, res) => {
         signature,
         endpointSecret
       );
-      res.send({stripeEv: stripeEvent})
+      // this works 
+      res.send({stripeEvent: stripeEvent})
       console.log('stripeEvent: ', stripeEvent)
     } catch (err) {
       console.log(`⚠️  Webhook signature verification failed.`, err.message);
@@ -24,17 +27,32 @@ let handleStripeWebhook = async (req, res) => {
     }
   }
 
-  // if (stripeEvent.type === "payment_intent.succeeded"){
-  //   const paymentIntent = stripeEvent.data.object
-  //   console.log('full stripe paymentIntent obj after success: ', paymentIntent)
-  //   console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`)
-  //   // update db with an order here 
+  if (stripeEvent.type === "payment_intent.succeeded"){
+    const paymentIntent = stripeEvent.data.object
+    // update db with an order here 
+    let orderObj = {}
+    // orderObj["user"] = 
     
-  // } else if (stripeEvent.type === "payment_intent.payment_failed"){
-  //   const paymentIntent = stripeEvent.data.object
-  //   console.log('full stripe paymentIntent obj after failure: ', paymentIntent)
-  //   console.log(`PaymentIntent for ${paymentIntent.amount} failed!`)
-  // }
+  } else if (stripeEvent.type === "payment_intent.payment_failed"){
+    const paymentIntent = stripeEvent.data.object
+    // send back failure message 
+  }
 }
 
 module.exports = { handleStripeWebhook };
+
+// order item sample: 
+// { 
+//   user: "", 
+//   orderItems: [{product: "", quantity: ""}], 
+//   totalCost: "", 
+//   shippingAddress: 
+//     {
+//       city: "Doraville",
+//       country: "US",
+//       line1: "5432 Buford Highway Northeast",
+//       line2: null,
+//       postal_code: "30340",
+//       state: "GA"
+//     }
+// }

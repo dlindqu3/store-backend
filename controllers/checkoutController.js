@@ -5,8 +5,12 @@ const Product = require('../models/productModel');
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 // argument array: productDetailsAndQuantities
-const handleCheckout = async (arr) => {
+const handleCheckout = async (arr, userId) => {
 
+  let customer = stripe.customers.create({metadata: {
+    userId: userId,
+    cart: arr
+  }})
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
@@ -14,7 +18,8 @@ const handleCheckout = async (arr) => {
     payment_method_types: ["card"],
     shipping_address_collection: {
       allowed_countries: ["US"]
-      }
+      },
+    customer: customer.userId
     // line_items: [{}, {}],
   };
 
@@ -53,6 +58,7 @@ const handleGetDetailsThenCheckout = async (req, res) => {
     // console.log('handleGetDetailsThenCheckout body: ', req.body)
 
     let cartItems = req.body.items
+    let userId = req.body.userId
     
     let productDetailsAndQuantities = []
 
@@ -71,7 +77,7 @@ const handleGetDetailsThenCheckout = async (req, res) => {
     }
 
     // console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
-    let checkoutData = await handleCheckout(productDetailsAndQuantities)
+    let checkoutData = await handleCheckout(productDetailsAndQuantities, userId)
     // // here, checkoutData is an object that looks like: 
     // // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
     res.status(200).send(checkoutData)
