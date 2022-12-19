@@ -5,14 +5,38 @@ const Product = require('../models/productModel');
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 // argument array: productDetailsAndQuantities
-const handleCheckout = async (arr, userId) => {
+const handleCheckout = async (arr, userId, userEmail) => {
 
-  // let customer = stripe.customers.create({metadata: {
-  //   userId: userId,
-  //   cart: arr
-  // }})
+  // see if there is already a stripe customer for current user, can list all customers and filter by email 
+    let customer = await stripe.customers.list({
+      email: userEmail,
+    });
+    console.log('customers with a given email: ', customer)
 
-  
+    if (!customer.data[0]){
+      // if there is no existing stripe customer with the given email: 
+      // make a new stripe customer
+      try {
+        const customer = await stripe.customers.create({
+          email: userEmail,
+          metadata: {
+            user: userId,
+            cart: arr
+          }
+        });
+        console.log('new customer: ', customer)
+      } catch (err){
+        // ERROR WITH STRUCTURING METADATA HERE AS WELL
+        console.log('error creating new customer: ', err.message)
+      }
+    }
+    // if there is an existing stripe customer with the provided email
+    // update stripe customer with current cart
+
+
+  console.log('handleCheckout called')
+  // console.log('arr: ', arr, "userId: ", userId)
+
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
@@ -21,7 +45,8 @@ const handleCheckout = async (arr, userId) => {
     shipping_address_collection: {
       allowed_countries: ["US"]
       },
-    metadata: {user: userId, cartData: arr}
+    // THIS METADATA CAUSES AN ERROR!!!!!
+    // metadata: {user: userId, cartData: arr}
     // line_items: [{}, {}],
   };
 
@@ -41,15 +66,16 @@ const handleCheckout = async (arr, userId) => {
 
   sessionData['line_items'] = line_items_data
 
+  // console.log('sessionData: ', sessionData)
   try {
-    // return { "sessionData" : sessionData }
     const session = await stripe.checkout.sessions.create(sessionData)
     // creating a stripe checkout session provides you with a url that you can re-route to in order to handle checkout
-    console.log('session: ', session)
-    console.log('sessionId: ', session.id)
+    // console.log('session: ', session)
+    // console.log('sessionId: ', session.id)
     return { url: session.url, sessionId: session.id }
 
   } catch (err) {
+    console.log({error: err.message})
     res.json({ error: err.message })
   }
 };
@@ -61,6 +87,7 @@ const handleGetDetailsThenCheckout = async (req, res) => {
 
     let cartItems = req.body.items
     let userId = req.body.userId
+    let userEmail = req.body.userEmail
     
     let productDetailsAndQuantities = []
 
@@ -79,7 +106,8 @@ const handleGetDetailsThenCheckout = async (req, res) => {
     }
 
     // console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
-    let checkoutData = await handleCheckout(productDetailsAndQuantities, userId)
+    let checkoutData = await handleCheckout(productDetailsAndQuantities, userId, userEmail)
+    // console.log('checkoutData: ', checkoutData)
     // // here, checkoutData is an object that looks like: 
     // // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
     res.status(200).send(checkoutData)
