@@ -19,7 +19,7 @@ let handleStripeWebhook = async (req, res) => {
         endpointSecret
       );
       // this works 
-      // res.send({stripeEvent: stripeEvent})
+      res.send({stripeEvent: stripeEvent})
 
       console.log('stripeEvent: ', stripeEvent)
     } catch (err) {
