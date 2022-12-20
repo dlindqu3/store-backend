@@ -35,3 +35,5 @@
 18. Fireship, "Stripe Payments Basics - Including New 3D Secure Requirements for EU Customers", [link](https://www.youtube.com/watch?v=1XKRxeo9414)
 19. "What is the meaning of "bodyParser.urlencoded({ extended: true }))" and "bodyParser.json()" in Express.js?", [link](https://stackoverflow.com/questions/55558402/what-is-the-meaning-of-bodyparser-urlencoded-extended-true-and-bodypar)
 20. "Express 4.17 get raw body for one endpoint", [link](https://stackoverflow.com/questions/68680900/express-4-17-get-raw-body-for-one-endpoint)
+21. "Adding metadata to a Stripe customer object", [link](https://stackoverflow.com/questions/54334734/adding-metadata-to-a-stripe-customer-object)
+

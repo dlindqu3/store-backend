@@ -20,18 +20,32 @@ const handleCheckout = async (arr, userId, userEmail) => {
         const customer = await stripe.customers.create({
           email: userEmail,
           metadata: {
-            user: userId,
-            cart: arr
+            user: userId.toString(),
+            cart: JSON.stringify({cartArray: arr})
           }
         });
         console.log('new customer: ', customer)
       } catch (err){
-        // ERROR WITH STRUCTURING METADATA HERE AS WELL
         console.log('error creating new customer: ', err.message)
       }
     }
     // if there is an existing stripe customer with the provided email
     // update stripe customer with current cart
+    else if (customer.data[0]){
+      // console.log('existing customer data: ', customer.data[0])
+      let currentCustomerId = customer.data[0].id
+      try {
+        customer = await stripe.customers.update(
+          currentCustomerId,
+          {metadata: {
+            user: userId.toString(),
+            cart: JSON.stringify({cartArray: arr})
+          }}
+        )
+      } catch(err){
+        console.log('update customer error: ', err.message)
+      }
+    }
 
 
   console.log('handleCheckout called')
@@ -45,8 +59,11 @@ const handleCheckout = async (arr, userId, userEmail) => {
     shipping_address_collection: {
       allowed_countries: ["US"]
       },
-    // THIS METADATA CAUSES AN ERROR!!!!!
-    // metadata: {user: userId, cartData: arr}
+    metadata: {
+      user: userId.toString(),
+      cart: JSON.stringify({cartArray: arr})
+    }
+
     // line_items: [{}, {}],
   };
 
@@ -107,7 +124,7 @@ const handleGetDetailsThenCheckout = async (req, res) => {
 
     // console.log('productDetailsAndQuantities: ', productDetailsAndQuantities)
     let checkoutData = await handleCheckout(productDetailsAndQuantities, userId, userEmail)
-    // console.log('checkoutData: ', checkoutData)
+    console.log('checkoutData: ', checkoutData)
     // // here, checkoutData is an object that looks like: 
     // // { "url": "https://checkout.stripe.com/c/pay/cs_test_abcdefg..."}
     res.status(200).send(checkoutData)
