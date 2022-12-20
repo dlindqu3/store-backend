@@ -24,6 +24,7 @@ let handleStripeWebhook = async (req, res) => {
         signature,
         endpointSecret
       );
+      res.send({stripeEvent: stripeEvent})
     } catch (err) {
       res.status(400).send({err: err.message});
     }
