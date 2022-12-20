@@ -62,9 +62,24 @@ let handleStripeWebhook = async (req, res) => {
     shippingAddress["state"] = req.body.data.object.customerDetails.address.state
     orderObj["shippingAddress"] = shippingAddress
 
+    let testObj = {
+        user: "63920e650f2a9cf7c0e809aa", 
+  orderItems: [{product: "6378f062a0d04237a135b702", quantity: 3}], 
+  totalCost: 75000, 
+  shippingAddress: 
+    {
+      city: "Doraville",
+      country: "US",
+      line1: "5432 Buford Highway Northeast",
+      line2: null,
+      postal_code: "30340",
+      state: "GA"
+    }
+    }
+
     // use orderObj to create a new instance of the order class in the db 
     try {
-      const newOrder = await Order.create(orderObj)
+      const newOrder = await Order.create(testObj)
       res.status(200).send(newOrder)
     } catch (err) {
       res.status(400).json({ mssg: err.message })
