@@ -54,7 +54,7 @@ let handleStripeWebhook = async (req, res) => {
     let customerObj = await stripe.customers.list({
       email: req.body.data.object.email
     });
-    orderObj["customer"] = customerObj.data.id
+    orderObj["customer"] = customerObj.data[0].id
     // ADD CUSTOMER ID HERE 
     orderObj["orderItems"] = []
 
