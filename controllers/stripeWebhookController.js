@@ -50,12 +50,13 @@ let handleStripeWebhook = async (req, res) => {
 
     orderObj["user"] = req.body.data.object.metadata.user
 
-    // search for customer by email 
-    let customerObj = await stripe.customers.list({
-      email: req.body.data.object.email
-    });
-    orderObj["customer"] = customerObj.data[0].id
     // ADD CUSTOMER ID HERE 
+    // search for customer by email 
+    // let customerObj = await stripe.customers.list({
+    //   email: req.body.data.object.email
+    // });
+    // orderObj["customer"] = customerObj.data[0].id
+
     orderObj["orderItems"] = []
 
     let totalCost = 0

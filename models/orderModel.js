@@ -11,7 +11,7 @@ const orderSchema = new Schema(
       ref: "User",
     },
     customer: {
-      type: String, required: true
+      type: String, required: false
     },
     orderItems: [
       {
