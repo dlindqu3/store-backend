@@ -86,13 +86,13 @@ let handleStripeWebhook = async (req, res) => {
     } catch (err) {
       res.status(400).json({ mssg: err.message })
     }
-
-    res.send({stripeEv: stripeEvent, dbOrd: dbOrder})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     // const paymentIntent = stripeEvent.data.object
     // send back failure message 
     res.send({error: "The payment attempt failed."})
   }
+
+  res.send({stripeEv: stripeEvent})
 }
 
 module.exports = { handleStripeWebhook };
