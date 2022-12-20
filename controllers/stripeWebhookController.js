@@ -80,7 +80,8 @@ let handleStripeWebhook = async (req, res) => {
     // use orderObj to create a new instance of the order class in the db 
     try {
       const newOrder = await Order.create(testObj)
-      res.status(200).send(newOrder)
+      let savedOrder = await newOrder.save()
+      // res.status(200).send(savedOrder)
     } catch (err) {
       res.status(400).json({ mssg: err.message })
     }
