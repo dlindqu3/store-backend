@@ -44,6 +44,8 @@ userSchema.statics.signup = async function ( username, email, password) {
   }
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
+
+  //save() can only be used on a new document of the model while create() can be used on the model 
   const user = await this.create({ username, email, password: hash })
   return user
 }

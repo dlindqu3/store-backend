@@ -5,8 +5,9 @@ const Order = require('../models/orderModel');
 // create an order 
 const createOrder = async (orderData) => {
   try {
-    const newOrder = await Order.create(orderData)
-    res.status(200).json(newOrder)
+    const newOrder = new Order(orderData)
+    let dbOrder = await newOrder.save()
+    res.status(200).json(dbOrder)
   } catch (err) {
     res.status(400).json({ mssg: err.message })
   }

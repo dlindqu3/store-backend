@@ -3,6 +3,7 @@ const Cart = require('../models/cartModel');
 
 
 const createCart = async (req, res) => {
+  // save() can only be used on a new document of the model while create() can be used on the model
   const cartData =  new Cart(req.body); 
   try {
     let dbCart = await cartData.save()
