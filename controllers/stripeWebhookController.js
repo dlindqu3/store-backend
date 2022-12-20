@@ -20,7 +20,6 @@ let handleStripeWebhook = async (req, res) => {
         signature,
         endpointSecret
       )
-      // res.send({stripeEvent: stripeEvent})
     } catch (err) {
       res.status(400).send({err: err.message});
     }
@@ -79,14 +78,16 @@ let handleStripeWebhook = async (req, res) => {
  
 
     // use orderObj to create a new instance of the order class in the db 
+    let dbOrder
     try {
       const newOrder = new Order(testObj)
-      let dbOrder = await newOrder.save()
+      dbOrder = await newOrder.save()
       // res.status(200).send(savedOrder)
     } catch (err) {
       res.status(400).json({ mssg: err.message })
     }
 
+    res.send({stripeEv: stripeEvent, dbOrd: dbOrder})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     // const paymentIntent = stripeEvent.data.object
     // send back failure message 

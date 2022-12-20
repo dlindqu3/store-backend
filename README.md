@@ -37,4 +37,4 @@
 20. "Express 4.17 get raw body for one endpoint", [link](https://stackoverflow.com/questions/68680900/express-4-17-get-raw-body-for-one-endpoint)
 21. "Adding metadata to a Stripe customer object", [link](https://stackoverflow.com/questions/54334734/adding-metadata-to-a-stripe-customer-object)
 22. "mongoose save vs insert vs create", [link](https://stackoverflow.com/questions/38290684/mongoose-save-vs-insert-vs-create)
-
+23. "Why can I execute code after "res.send"?", [link](https://stackoverflow.com/questions/16180502/why-can-i-execute-code-after-res-send)
