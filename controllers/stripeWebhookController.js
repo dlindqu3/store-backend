@@ -3,10 +3,6 @@ const Order = require('../models/orderModel')
 const Stripe = require("stripe")
 
 
-let makeOrder = async (customer, data) => {
-
-}
-
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 let handleStripeWebhook = async (req, res) => {
@@ -24,7 +20,7 @@ let handleStripeWebhook = async (req, res) => {
         signature,
         endpointSecret
       );
-      res.send({stripeEvent: stripeEvent})
+      // res.send({stripeEvent: stripeEvent})
     } catch (err) {
       res.status(400).send({err: err.message});
     }
