@@ -42,7 +42,8 @@ let handleStripeWebhook = async (req, res) => {
     }
   }
 
-  if (stripeEvent.type === "payment_intent.succeeded"){
+  // SHOULD THIS BE "payment_intent.succeeded"? payment_intent is listed elsewhere on the req and incoming res 
+  if (stripeEvent.type === "checkout.session.completed"){
     // const paymentIntent = stripeEvent.data.object
     // update db with an order here 
     // let parsedCart = JSON.parse(req.body.data.object.metadata.cart)
@@ -86,7 +87,7 @@ let handleStripeWebhook = async (req, res) => {
     } catch (err) {
       res.status(400).json({ mssg: err.message })
     }
-  } else if (stripeEvent.type === "payment_intent.payment_failed"){
+  } else if (stripeEvent.type !== "checkout.session.completed"){
     // const paymentIntent = stripeEvent.data.object
     // send back failure message 
     res.send({error: "The payment attempt failed."})
