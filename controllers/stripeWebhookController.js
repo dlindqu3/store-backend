@@ -46,9 +46,9 @@ let handleStripeWebhook = async (req, res) => {
   if (stripeEvent.type === "checkout.session.completed"){
     const paymentIntent = stripeEvent.data.object
     // update db with an order here 
-    let parsedCart = JSON.parse(req.body.data.object.metadata.cart)
+    // let parsedCart = JSON.parse(req.body.data.object.metadata.cart)
 
-    orderObj["user"] = req.body.data.object.metadata.user
+    // orderObj["user"] = req.body.data.object.metadata.user
 
     // ADD CUSTOMER ID HERE 
     // search for customer by email 
@@ -57,38 +57,38 @@ let handleStripeWebhook = async (req, res) => {
     // });
     // orderObj["customer"] = customerObj.data[0].id
 
-    orderObj["orderItems"] = []
+    // orderObj["orderItems"] = []
 
-    let totalCost = 0
+    // let totalCost = 0
 
-    for (let i = 0; i < parsedCart.cartArray.length; i++){
-      let currentItem = parsedCart.cartArray[i]
-      let newObj = {}
-      newObj["quantity"] = currentItem.quantity
-      newObj["id"] = currentItem.id
-      orderObj["orderItems"].push(newObj)
+    // for (let i = 0; i < parsedCart.cartArray.length; i++){
+    //   let currentItem = parsedCart.cartArray[i]
+    //   let newObj = {}
+    //   newObj["quantity"] = currentItem.quantity
+    //   newObj["id"] = currentItem.id
+    //   orderObj["orderItems"].push(newObj)
       
-      // add to totalCost
-      let currentItemTotalCost = currentItem.price * currentItem.quantity
-      totalCost += currentItemTotalCost
-    }
+    //   // add to totalCost
+    //   let currentItemTotalCost = currentItem.price * currentItem.quantity
+    //   totalCost += currentItemTotalCost
+    // }
 
-    orderObj["totalCost"] = totalCost
+    // orderObj["totalCost"] = totalCost
     
-    let shippingAddress = {}
-    shippingAddress["city"] = req.body.data.object.customerDetails.address.city
-    shippingAddress["county"] = req.body.data.object.customerDetails.address.county
-    shippingAddress["line1"] = req.body.data.object.customerDetails.address.line1
-    shippingAddress["line2"] = req.body.data.object.customerDetails.address.line2
-    shippingAddress["postal_code"] = req.body.data.object.customerDetails.address.postal_code
-    shippingAddress["state"] = req.body.data.object.customerDetails.address.state
-    orderObj["shippingAddress"] = shippingAddress
+    // let shippingAddress = {}
+    // shippingAddress["city"] = req.body.data.object.customerDetails.address.city
+    // shippingAddress["county"] = req.body.data.object.customerDetails.address.county
+    // shippingAddress["line1"] = req.body.data.object.customerDetails.address.line1
+    // shippingAddress["line2"] = req.body.data.object.customerDetails.address.line2
+    // shippingAddress["postal_code"] = req.body.data.object.customerDetails.address.postal_code
+    // shippingAddress["state"] = req.body.data.object.customerDetails.address.state
+    // orderObj["shippingAddress"] = shippingAddress
  
 
     // use orderObj to create a new instance of the order class in the db 
     let dbOrder
     try {
-      const newOrder = new Order(orderObj)
+      const newOrder = new Order(testObj)
       dbOrder = await newOrder.save()
       // res.status(200).send(savedOrder)
     } catch (err) {
