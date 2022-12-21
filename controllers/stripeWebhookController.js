@@ -30,7 +30,7 @@ let handleStripeWebhook = async (req, res) => {
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
   console.log("event.data.object.id: ", stripeEvent.data.object.id)
-  // res.send({stripeEv: stripeEvent})
+  res.send({stripeEv: stripeEvent})
 }
 
 module.exports = { handleStripeWebhook };
