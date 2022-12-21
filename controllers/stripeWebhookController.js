@@ -104,10 +104,10 @@ let handleStripeWebhook = async (req, res) => {
     // }
   } else if (stripeEvent.type !== "checkout.session.completed"){
     // send back failure message 
-    res.send({error: "The payment attempt failed."})
+    res.send({strEv: stripeEvent.type})
   }
 
-  console.log('stripeEv: ', stripeEvent)
+  // console.log('stripeEv: ', stripeEvent)
   // res.send({stripeEv: stripeEvent})
 }
 
