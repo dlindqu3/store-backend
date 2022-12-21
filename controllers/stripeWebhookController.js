@@ -23,9 +23,12 @@ let handleStripeWebhook = async (req, res) => {
       console.log("webhook verified")
     } catch (err) {
       console.log("webhook error message: ", err.message)
-      res.status(400).send({err: err.message});
+      res.status(400).end()
+      return
     }
   }
+
+  let intent = stripeEvent.data.object
 
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
