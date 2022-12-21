@@ -7,7 +7,7 @@ const orderSchema = new Schema(
     // user that is the purchaser
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
       ref: "User",
     },
     customer: {
@@ -17,19 +17,19 @@ const orderSchema = new Schema(
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
+          required: false,
           ref: "Product",
         },
-        quantity: { type: Number, required: true },
+        quantity: { type: Number, required: false },
       },
     ],
     totalCost: {
       type: Number,
-      required: true,
+      required: false,
     },
     shippingAddress: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   {
