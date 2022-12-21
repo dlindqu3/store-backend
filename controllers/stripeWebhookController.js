@@ -48,18 +48,18 @@ let handleStripeWebhook = async (req, res) => {
   if (stripeEvent.type === "checkout.session.completed"){
     console.log("checkout.session.completed")
     // update db with an order here 
-    // let parsedCart = JSON.parse(req.body.data.object.metadata.cart)
+    let parsedCart = JSON.parse(req.body.data.object.metadata.cart)
 
-    // orderObj["user"] = req.body.data.object.metadata.user
+    orderObj["user"] = req.body.data.object.metadata.user
 
     // // ADD CUSTOMER ID HERE 
     // // search for customer by email 
-    // let customerObj = await stripe.customers.list({
-    //   email: req.body.data.object.customer_details.email
-    // })
+    let customerObj = await stripe.customers.list({
+      email: req.body.data.object.customer_details.email
+    })
 
     // console.log('customerObj: ', customerObj)
-    // orderObj["customer"] = customerObj.data[0].id
+    orderObj["customer"] = customerObj.data[0].id
 
     // orderObj["orderItems"] = []
 
