@@ -34,7 +34,7 @@ let handleStripeWebhook = async (req, res) => {
     // let customer = await stripe.customers.list({
     //   email: req.data.object.charges.data[0].billing_details.email,
     // });
-    let billing_details_obj = req.data.object.charges.data[0].billing_details
+    let billing_details_obj = req.body.data.object.charges.data[0].billing_details
     // code above added after last successful commit 
 
     // here, added stripeCustomer: customer
