@@ -53,7 +53,7 @@ const handleCheckout = async (arr, userId, userEmail) => {
 
   let sessionData = {
     cancel_url: `${process.env.CLIENT_URL}/checkout/cancel`,
-    success_url: `${process.env.CLIENT_URL}/checkout/success`,
+    success_url: `${process.env.CLIENT_URL}/checkout/success?id={CHECKOUT_SESSION_ID}`,
     mode: "payment",
     payment_method_types: ["card"],
     shipping_address_collection: {
