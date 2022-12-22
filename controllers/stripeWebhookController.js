@@ -34,11 +34,11 @@ let handleStripeWebhook = async (req, res) => {
     // let customer = await stripe.customers.list({
     //   email: req.data.object.charges.data[0].billing_details.email,
     // });
-
+    let billing_details_obj = req.data.object.charges.data[0].billing_details
     // code above added after last successful commit 
 
     // here, added stripeCustomer: customer
-    res.send({success: true, aa: "bb", stripeEv: stripeEvent})
+    res.send({success: true, aa: "bb", bd: billing_details_obj, stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
