@@ -38,8 +38,15 @@ let handleStripeWebhook = async (req, res) => {
 
     // code above added after last successful commit 
 
+    let testObj = {}
+    testObj["user"] = customer.data[0].metadata.user
+    testObj["customer"] = customer.data[0].id
+    testObj["orderItems"] = []
+    testObj["totalCost"] = 0
+    testObj["shippingAddress"] = {}
+
     // here, getting the email works
-    res.send({success: true, aa: "bb", email: currentEmail, customerData: customer, stripeEv: stripeEvent})
+    res.send({success: true, aa: "bb", testObj: testObj, stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
