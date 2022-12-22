@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Order = require('../models/orderModel')
+const Cart = require("../models/cartModel")
 const Stripe = require("stripe")
 
 
@@ -38,6 +39,7 @@ let handleStripeWebhook = async (req, res) => {
 
     // code above added after last successful commit 
 
+    // this testObj works so far 
     let testObj = {}
     testObj["user"] = customer.data[0].metadata.user
     testObj["customer"] = customer.data[0].id
@@ -45,8 +47,10 @@ let handleStripeWebhook = async (req, res) => {
     testObj["totalCost"] = 0
     testObj["shippingAddress"] = {}
 
-    // here, getting the email works
-    res.send({success: true, aa: "bb", testObj: testObj, stripeEv: stripeEvent})
+    let cart = await Cart.find({user: customer.data[0].metadata.user})
+
+    // this res obj works so far 
+    res.send({success: true, aa: "bb", testObj: testObj, cart: cart, stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
