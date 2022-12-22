@@ -28,11 +28,16 @@ let handleStripeWebhook = async (req, res) => {
     }
   }
 
+  if (stripeEvent.type === "payment_intent.succeeded"){
+    res.send({success: true, stripeEv: stripeEvent})
+  } else if (stripeEvent.type === "payment_intent.payment_failed"){
+    res.send({success: false, stripeEv: stripeEvent})
+  }
 
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
   console.log("event.data.object.id: ", stripeEvent.data.object.id)
-  res.send({stripeEv: stripeEvent})
+  // res.send({stripeEv: stripeEvent})
 }
 
 module.exports = { handleStripeWebhook };
