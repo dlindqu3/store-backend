@@ -28,7 +28,6 @@ let handleStripeWebhook = async (req, res) => {
     }
   }
 
-  let intent = stripeEvent.data.object
 
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
