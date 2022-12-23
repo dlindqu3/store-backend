@@ -40,18 +40,26 @@ let handleStripeWebhook = async (req, res) => {
     // code above added after last successful commit 
 
     // this testObj works so far 
-    let testObj = {}
-    testObj["user"] = customer.data[0].metadata.user
-    testObj["customer"] = customer.data[0].id
+    let orderObj = {}
+    orderObj["user"] = customer.data[0].metadata.user
+    orderObj["customer"] = customer.data[0].id
     // testObj["orderItems"] = []
-    testObj["totalCost"] = stripeEvent.data.object.amount
-    testObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
+    orderObj["totalCost"] = stripeEvent.data.object.amount
+    orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
     let cart = await Cart.find({user: customer.data[0].metadata.user})
-    testObj["orderItems"] = cart[0].cartItems
+    orderObj["orderItems"] = cart[0].cartItems
+
+    let dbOrder
+    const orderData =  new Order(orderObj); 
+    try {
+      dbOrder = await orderData.save()
+    } catch (err){
+      res.status(500).json(err)
+    }
 
     // this res obj works so far 
-    res.send({success: true, aa: "bb", testObj: testObj, cart: cart, stripeEv: stripeEvent})
+    res.send({success: true, aa: "bb", dbOrder: dbOrder, cart: cart, stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
