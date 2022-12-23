@@ -56,6 +56,7 @@ const handleCheckout = async (arr, userId, userEmail) => {
     success_url: `${process.env.CLIENT_URL}/checkout/success?id={CHECKOUT_SESSION_ID}`,
     mode: "payment",
     payment_method_types: ["card"],
+    customer_email: userEmail,
     shipping_address_collection: {
       allowed_countries: ["US"]
       },

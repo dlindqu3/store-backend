@@ -31,35 +31,35 @@ let handleStripeWebhook = async (req, res) => {
 
   if (stripeEvent.type === "payment_intent.succeeded"){
 
-    let currentEmail = stripeEvent.data.object.charges.data[0].billing_details.email
+    // let currentEmail = stripeEvent.data.object.charges.data[0].billing_details.email
     // code below added after last successful commit 
-    let customer = await stripe.customers.list({
-      email: currentEmail,
-    });
+    // let customer = await stripe.customers.list({
+    //   email: currentEmail,
+    // });
 
     // code above added after last successful commit 
 
     // this testObj works so far 
-    let orderObj = {}
-    orderObj["user"] = customer.data[0].metadata.user
-    orderObj["customer"] = customer.data[0].id
-    // testObj["orderItems"] = []
-    orderObj["totalCost"] = stripeEvent.data.object.amount
-    orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
+    // let orderObj = {}
+    // orderObj["user"] = customer.data[0].metadata.user
+    // orderObj["customer"] = customer.data[0].id
+    // // testObj["orderItems"] = []
+    // orderObj["totalCost"] = stripeEvent.data.object.amount
+    // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
-    let cart = await Cart.find({user: customer.data[0].metadata.user})
-    orderObj["orderItems"] = cart[0].cartItems
+    // let cart = await Cart.find({user: customer.data[0].metadata.user})
+    // orderObj["orderItems"] = cart[0].cartItems
 
-    let dbOrder
-    const orderData =  new Order(orderObj); 
-    try {
-      dbOrder = await orderData.save()
-    } catch (err){
-      res.status(500).json(err)
-    }
+    // let dbOrder
+    // const orderData =  new Order(orderObj); 
+    // try {
+    //   dbOrder = await orderData.save()
+    // } catch (err){
+    //   res.status(500).json(err)
+    // }
 
     // this res obj works so far 
-    res.send({success: true, aa: "bb", dbOrder: dbOrder, cart: cart, stripeEv: stripeEvent})
+    res.send({success: true, aa: "bb", stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
