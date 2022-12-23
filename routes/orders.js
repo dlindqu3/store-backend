@@ -9,8 +9,8 @@ router.use(requireAuth)
 // overall route: /api/orders/create-order
 router.post('/create-order', createOrder)
 
-// overall route: /api/orders/get-single-user-orders
-router.get('/get-single-user-orders', readOrders)
+// overall route: /api/orders/get-single-user-orders/:userId
+router.get('/get-single-user-orders/:userId', readOrders)
 
 // overall route: /api/orders/update/:id
 router.get('/update/:id', updateOrder) 
