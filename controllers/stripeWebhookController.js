@@ -43,11 +43,12 @@ let handleStripeWebhook = async (req, res) => {
     let testObj = {}
     testObj["user"] = customer.data[0].metadata.user
     testObj["customer"] = customer.data[0].id
-    testObj["orderItems"] = []
-    testObj["totalCost"] = 0
-    testObj["shippingAddress"] = {}
+    // testObj["orderItems"] = []
+    testObj["totalCost"] = stripeEvent.data.object.amount
+    testObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
     let cart = await Cart.find({user: customer.data[0].metadata.user})
+    testObj["orderItems"] = cart[0].cartItems
 
     // this res obj works so far 
     res.send({success: true, aa: "bb", testObj: testObj, cart: cart, stripeEv: stripeEvent})
