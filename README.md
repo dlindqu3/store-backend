@@ -1,17 +1,9 @@
-## stripe notes 
-- we provide it with the ids of the products we want to buy and a count for each
-- send that to the server, which has pricing info 
-- server will respond with a new url to a checkout page 
-- frontend can re-direct to the new url (a checkout page)
+## deployed server on Render
+- https://store-backend-arv3.onrender.com/
 
 
-## stripe api choices
-- Stripe Checkout is a prebuilt payment page that you can redirect your customer to for simple purchases and subscriptions. It provides many features, such as Apple Pay, Google Pay, internationalization, and form validation.
-- Stripe's Charges and Payment Intents APIs let you build custom payment flows and experiences.
-- ** this project uses Checkout, not Charges & Payment Intents  
-
-## checkout webhook 
-- Register your publicly accessible HTTPS URL in the Stripe dashboard.
+## frontend repository on GitHub 
+- https://github.com/dlindqu3/store-frontend
 
 
 ## citations 
