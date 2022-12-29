@@ -63,12 +63,12 @@ let handleStripeWebhook = async (req, res) => {
       // res.status(500).json(err)
     }
 
-    try {
-      deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
-    } catch (err){
-      err2 = err
-      // res.send({"error": err})
-    }
+    // try {
+    //   deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
+    // } catch (err){
+    //   err2 = err
+    //   // res.send({"error": err})
+    // }
     
 
     // test on 12.30 
