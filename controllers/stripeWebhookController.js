@@ -17,6 +17,10 @@ let handleStripeWebhook = async (req, res) => {
   let dbOrder
   let deletedCart 
 
+  let err1 = ""
+  let err2 = ""
+
+
   if (endpointSecret) {
     const signature = req.headers['stripe-signature'];
     try {
@@ -55,18 +59,21 @@ let handleStripeWebhook = async (req, res) => {
     try {
       dbOrder = await orderData.save()
     } catch (err){
-      res.status(500).json(err)
+      err1 = err
+      // res.status(500).json(err)
     }
 
     try {
       deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
     } catch (err){
-      res.send({"error": err})
+      err2 = err
+      // res.send({"error": err})
     }
     
 
-    // this res obj works so far 
-    res.send({success: true, aa: "bb", cart: cart, deletedCart: deletedCart, customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
+    // test on 12.30 
+    res.send({err1, err2, aa: "bb", cart: cart, deletedCart: deletedCart, customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
+
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
