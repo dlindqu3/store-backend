@@ -13,6 +13,9 @@ let handleStripeWebhook = async (req, res) => {
   // console.log('webhook called')
 
   let stripeEvent
+  let cart 
+  let dbOrder
+
   if (endpointSecret) {
     const signature = req.headers['stripe-signature'];
     try {
@@ -42,11 +45,11 @@ let handleStripeWebhook = async (req, res) => {
     orderObj["totalCost"] = stripeEvent.data.object.amount
     orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
-    let cart = await Cart.find({user: customer.data[0].metadata.user})
+    cart = await Cart.find({user: customer.data[0].metadata.user})
     orderObj["orderItems"] = cart[0].cartItems
 
 
-    let dbOrder
+
     const orderData =  new Order(orderObj); 
     try {
       dbOrder = await orderData.save()
@@ -54,11 +57,11 @@ let handleStripeWebhook = async (req, res) => {
       res.status(500).json(err)
     }
 
-    try {
-      Cart.findByIdAndDelete(cart._id)
-    } catch (err){
-      res.send({"error": err})
-    }
+    // try {
+    //   Cart.findByIdAndDelete(cart._id)
+    // } catch (err){
+    //   res.send({"error": err})
+    // }
     
 
     // this res obj works so far 
@@ -70,7 +73,7 @@ let handleStripeWebhook = async (req, res) => {
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
   console.log("event.data.object.id: ", stripeEvent.data.object.id)
-  res.send({stripeEv: stripeEvent})
+  res.send({stripeEv: stripeEvent, cart: cart})
 }
 
 module.exports = { handleStripeWebhook };
