@@ -45,6 +45,7 @@ let handleStripeWebhook = async (req, res) => {
     let cart = await Cart.find({user: customer.data[0].metadata.user})
     orderObj["orderItems"] = cart[0].cartItems
 
+
     let dbOrder
     const orderData =  new Order(orderObj); 
     try {
@@ -52,6 +53,13 @@ let handleStripeWebhook = async (req, res) => {
     } catch (err){
       res.status(500).json(err)
     }
+
+    try {
+      Cart.findByIdAndDelete(cart._id)
+    } catch (err){
+      res.send({"error": err})
+    }
+    
 
     // this res obj works so far 
     res.send({success: true, aa: "bb", customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
