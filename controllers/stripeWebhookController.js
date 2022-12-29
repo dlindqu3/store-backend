@@ -55,13 +55,13 @@ let handleStripeWebhook = async (req, res) => {
 
 
 
-    const orderData =  new Order(orderObj); 
-    try {
-      dbOrder = await orderData.save()
-    } catch (err){
-      err1 = err
-      // res.status(500).json(err)
-    }
+    // const orderData =  new Order(orderObj); 
+    // try {
+    //   dbOrder = await orderData.save()
+    // } catch (err){
+    //   err1 = err
+    //   // res.status(500).json(err)
+    // }
 
     // try {
     //   deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
@@ -72,7 +72,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({err1, err2, aa: "bb", cart: cart, deletedCart: deletedCart, customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
+    res.send({err1, err2, aa: "bb", cart, stripeEv: stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
