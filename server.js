@@ -12,7 +12,7 @@ const stripeWebhookRoutes = require("./routes/stripeWebhook")
 
 const app = express()
 
-const allowedOrigins = ['http://localhost:4000', 'http://localhost:3000', 'https://store-frontend-topaz.vercel.app'];
+const allowedOrigins = ['http://localhost:4000', 'http://localhost:3000', 'https://store-frontend-topaz.vercel.app', 'https://swift-store-frontend-topaz.vercel.app'];
 
 const options = {
   origin: allowedOrigins,
