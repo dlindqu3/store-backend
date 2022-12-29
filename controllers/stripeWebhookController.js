@@ -65,7 +65,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // this res obj works so far 
-    res.send({success: true, aa: "bb", customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
+    res.send({success: true, aa: "bb", cart: cart, customer: customer, dbOrder: dbOrder, stripeEv: stripeEvent})
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
   }
@@ -73,7 +73,7 @@ let handleStripeWebhook = async (req, res) => {
   console.log("event type: ", stripeEvent.type)
   console.log("event.data.object: ", stripeEvent.data.object)
   console.log("event.data.object.id: ", stripeEvent.data.object.id)
-  res.send({success: true, stripeEv: stripeEvent, cartData: cart})
+  res.send({stripeEv: stripeEvent})
 }
 
 module.exports = { handleStripeWebhook };
