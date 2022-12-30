@@ -39,6 +39,7 @@ let handleStripeWebhook = async (req, res) => {
 
   if (stripeEvent.type === "payment_intent.succeeded"){
 
+    // getting customer data works 
     let currentEmail = stripeEvent.data.object.customer_email
     let customer = await stripe.customers.list({
       email: currentEmail,
@@ -50,7 +51,7 @@ let handleStripeWebhook = async (req, res) => {
     // orderObj["totalCost"] = stripeEvent.data.object.amount
     // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
-    // // cart = await Cart.find({user: customer.data[0].metadata.user})
+    cart = await Cart.find({user: customer.data[0].metadata.user})
     // orderObj["orderItems"] = cart[0].cartItems
 
 
@@ -72,7 +73,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customerData: customer, stripeEv: stripeEvent})
+    res.send({ aa: "bb", customerData: customer, cartData: cart, stripeEv: stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
