@@ -45,7 +45,7 @@ let handleStripeWebhook = async (req, res) => {
     let cart = await Cart.find({user: user})
 
     let orderObj = {}
-    orderObj["user"] = customer.data[0].metadata.user
+    orderObj["user"] = user 
     orderObj["customer"] = customer.data[0].id
     orderObj["totalCost"] = stripeEvent.data.object.amount
     orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
@@ -53,7 +53,7 @@ let handleStripeWebhook = async (req, res) => {
     
     orderObj["orderItems"] = cart[0].cartItems
 
-
+    // this does not work 
     // let dbOrder 
     // const orderData =  new Order(orderObj); 
     // try {
@@ -62,8 +62,6 @@ let handleStripeWebhook = async (req, res) => {
     //   res.status(500).json(err)
     // }
 
-
-    // webhook error even after deleteCart commented out 
 
     // this does not work 
     // let deletedCart
