@@ -13,13 +13,6 @@ let handleStripeWebhook = async (req, res) => {
   // console.log('webhook called')
 
   let stripeEvent
-  let cart 
-  let dbOrder
-  let deletedCart 
-
-  let err1 = ""
-  let err2 = ""
-
 
   if (endpointSecret) {
     const signature = req.headers['stripe-signature'];
@@ -45,13 +38,17 @@ let handleStripeWebhook = async (req, res) => {
       email: currentEmail,
     })
 
+    // this part is not working 
+    let user = customer.data[0].metadata.user
+    let cart = await Cart.find({user: user})
+
     // let orderObj = {}
     // orderObj["user"] = customer.data[0].metadata.user
     // orderObj["customer"] = customer.data[0].id
     // orderObj["totalCost"] = stripeEvent.data.object.amount
     // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
-    cart = await Cart.find({user: customer.data[0].metadata.user})
+    
     // orderObj["orderItems"] = cart[0].cartItems
 
 
@@ -73,7 +70,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customerData: customer, cartData: cart, stripeEv: stripeEvent})
+    res.send({ aa: "bb", customerData: customer, userId: user, cartData: cart, stripeEv: stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
