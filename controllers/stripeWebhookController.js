@@ -63,6 +63,7 @@ let handleStripeWebhook = async (req, res) => {
       res.status(500).json(err)
     }
 
+    let deletedCart
     try {
       deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
     } catch (err){
