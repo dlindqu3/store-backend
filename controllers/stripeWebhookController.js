@@ -63,9 +63,9 @@ let handleStripeWebhook = async (req, res) => {
       res.status(500).json(err)
     }
 
-    let deletedCart
+    // this does not work 
     try {
-      deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
+      await Cart.findByIdAndDelete(cart[0]._id)
     } catch (err){
       res.send({"error": err})
     }
