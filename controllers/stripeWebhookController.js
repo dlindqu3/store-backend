@@ -33,7 +33,6 @@ let handleStripeWebhook = async (req, res) => {
   if (stripeEvent.type === "payment_intent.succeeded"){
 
     // getting customer data works 
-    // let currentEmail = stripeEvent.data.object.customer_email
     let currentEmail = stripeEvent.data.object.charges.data[0].billing_details.email
 
     let customer = await stripe.customers.list({
@@ -47,36 +46,34 @@ let handleStripeWebhook = async (req, res) => {
     // find the cart works 
     let cart = await Cart.find({user: user})
 
-    // let orderObj = {}
-    // orderObj["user"] = user 
-    // orderObj["customer"] = customer.data[0].id
-    // orderObj["totalCost"] = stripeEvent.data.object.amount
-    // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
+    let orderObj = {}
+    orderObj["user"] = user 
+    orderObj["customer"] = customer.data[0].id
+    orderObj["totalCost"] = stripeEvent.data.object.amount
+    orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
     
-    // orderObj["orderItems"] = cart[0].cartItems
+    orderObj["orderItems"] = cart[0].cartItems
 
-    // this does not work 
-    // let dbOrder 
-    // const orderData =  new Order(orderObj); 
-    // try {
-    //   dbOrder = await orderData.save()
-    // } catch (err){
-    //   res.status(500).json(err)
-    // }
-
-
-    // this does not work 
-    // let deletedCart
-    // try {
-    //   deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
-    // } catch (err){
-    //   res.send({"error": err})
-    // }
+  
+    let dbOrder 
+    const orderData =  new Order(orderObj); 
+    try {
+      dbOrder = await orderData.save()
+    } catch (err){
+      res.status(500).json(err)
+    }
+ 
+    let deletedCart
+    try {
+      deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
+    } catch (err){
+      res.send({"error": err})
+    }
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customer, user, cart, stripeEvent})
+    res.send({ aa: "bb", dbOrder, customer, user, cart, stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
