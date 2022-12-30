@@ -54,13 +54,13 @@ let handleStripeWebhook = async (req, res) => {
     orderObj["orderItems"] = cart[0].cartItems
 
 
-    let dbOrder 
-    const orderData =  new Order(orderObj); 
-    try {
-      dbOrder = await orderData.save()
-    } catch (err){
-      res.status(500).json(err)
-    }
+    // let dbOrder 
+    // const orderData =  new Order(orderObj); 
+    // try {
+    //   dbOrder = await orderData.save()
+    // } catch (err){
+    //   res.status(500).json(err)
+    // }
 
 
     // webhook error even after deleteCart commented out 
@@ -75,7 +75,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customer, user, cart, stripeEvent})
+    res.send({ aa: "bb", customer, user, cart, orderObj, stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
