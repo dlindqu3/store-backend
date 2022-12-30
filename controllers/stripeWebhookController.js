@@ -32,26 +32,26 @@ let handleStripeWebhook = async (req, res) => {
       console.log("webhook verified")
     } catch (err) {
       console.log("webhook error message: ", err.message)
-      res.status(400).end()
+      res.status(400).send({err: err.message}).end()
       return
     }
   }
 
   if (stripeEvent.type === "payment_intent.succeeded"){
 
-    let currentEmail = stripeEvent.data.object.customer_email
-    let customer = await stripe.customers.list({
-      email: currentEmail,
-    })
+    // let currentEmail = stripeEvent.data.object.customer_email
+    // let customer = await stripe.customers.list({
+    //   email: currentEmail,
+    // })
 
-    let orderObj = {}
-    orderObj["user"] = customer.data[0].metadata.user
-    orderObj["customer"] = customer.data[0].id
-    orderObj["totalCost"] = stripeEvent.data.object.amount
-    orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
+    // let orderObj = {}
+    // orderObj["user"] = customer.data[0].metadata.user
+    // orderObj["customer"] = customer.data[0].id
+    // orderObj["totalCost"] = stripeEvent.data.object.amount
+    // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
-    // cart = await Cart.find({user: customer.data[0].metadata.user})
-    orderObj["orderItems"] = cart[0].cartItems
+    // // cart = await Cart.find({user: customer.data[0].metadata.user})
+    // orderObj["orderItems"] = cart[0].cartItems
 
 
 
