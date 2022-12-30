@@ -40,7 +40,7 @@ let handleStripeWebhook = async (req, res) => {
 
     // this part is not working 
     let user = customer.data[0].metadata.user
-    let cart = await Cart.find({user: user})
+    // let cart = await Cart.find({user: user})
 
     // let orderObj = {}
     // orderObj["user"] = customer.data[0].metadata.user
@@ -70,7 +70,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customerData: customer, userId: user, cartData: cart, stripeEv: stripeEvent})
+    res.send({ aa: "bb", customerData: customer, user, stripeEv: stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
