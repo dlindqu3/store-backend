@@ -33,13 +33,16 @@ let handleStripeWebhook = async (req, res) => {
   if (stripeEvent.type === "payment_intent.succeeded"){
 
     // getting customer data works 
-    let currentEmail = stripeEvent.data.object.customer_email
+    // let currentEmail = stripeEvent.data.object.customer_email
+    let currentEmail = stripeEvent.data.object.charges.data[0].billing_details.email
+
     let customer = await stripe.customers.list({
       email: currentEmail,
     })
 
     // finding the user works 
     let user = customer.data[0].metadata.user
+
 
     // find the cart works 
     let cart = await Cart.find({user: user})
