@@ -54,6 +54,7 @@ let handleStripeWebhook = async (req, res) => {
     orderObj["orderItems"] = cart[0].cartItems
 
 
+    // creating an order document in the db works
     let dbOrder 
     const orderData =  new Order(orderObj); 
     try {
@@ -62,12 +63,11 @@ let handleStripeWebhook = async (req, res) => {
       res.status(500).json(err)
     }
 
-    // try {
-    //   deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
-    // } catch (err){
-    //   err2 = err
-    //   // res.send({"error": err})
-    // }
+    try {
+      deletedCart = await Cart.findByIdAndDelete(cart[0]._id)
+    } catch (err){
+      res.send({"error": err})
+    }
     
 
     // test on 12.30 
