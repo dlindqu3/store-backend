@@ -44,14 +44,14 @@ let handleStripeWebhook = async (req, res) => {
     // find the cart works 
     let cart = await Cart.find({user: user})
 
-    let orderObj = {}
-    orderObj["user"] = user 
-    orderObj["customer"] = customer.data[0].id
-    orderObj["totalCost"] = stripeEvent.data.object.amount
-    orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
+    // let orderObj = {}
+    // orderObj["user"] = user 
+    // orderObj["customer"] = customer.data[0].id
+    // orderObj["totalCost"] = stripeEvent.data.object.amount
+    // orderObj["shippingAddress"] = stripeEvent.data.object.charges.data[0].billing_details.address
 
     
-    orderObj["orderItems"] = cart[0].cartItems
+    // orderObj["orderItems"] = cart[0].cartItems
 
     // this does not work 
     // let dbOrder 
@@ -73,7 +73,7 @@ let handleStripeWebhook = async (req, res) => {
     
 
     // test on 12.30 
-    res.send({ aa: "bb", customer, user, cart, orderObj, stripeEvent})
+    res.send({ aa: "bb", customer, user, cart, stripeEvent})
 
   } else if (stripeEvent.type === "payment_intent.payment_failed"){
     res.send({success: false, stripeEv: stripeEvent})
