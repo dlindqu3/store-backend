@@ -1,9 +1,4 @@
-## deployed server on Render
-- https://store-backend-arv3.onrender.com/
-
-
-## frontend repository on GitHub 
-- https://github.com/dlindqu3/store-frontend
+** deployments removed **
 
 
 ## citations 
